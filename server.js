@@ -12,6 +12,7 @@ const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const getSubscriptionUrl = require('./server/getSubscriptionUrl');
 
 const port = parseInt(process.env.PORT, 10) || 3001;
+const ip = process.env.BIND_IP ||  '127.0.0.1';
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -46,7 +47,7 @@ app.prepare().then(() => {
         return
     });
 
-    server.listen(port, () => {
+    server.listen(port, ip,() => {
         console.log(`> Ready on http://localhost:${port}`);
     });
 });
