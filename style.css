@@ -1,0 +1,294 @@
+.titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.step {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 48px;
+    border-bottom: 1px solid #EFEFEF;
+}
+
+.step a {
+    font-size: 14px;
+    color: rgb(32, 34, 35);
+    text-decoration: none;
+}
+
+.step.completed .title .title-wrapper div:first-child {
+    text-decoration: line-through!important;
+    color: #d6dce8!important;
+}
+
+.step.abandoned .title .title-wrapper div:first-child {
+    text-decoration: line-through!important;
+    color: #d6dce8!important;
+}
+
+.col-title {
+    flex: 1
+}
+.col-status {
+    width: 140px;
+}
+.col-difficulty {
+    width: 80px;
+}
+.col-impact {
+    width: 50px;
+}
+.col-cost {
+    width: 50px;
+}
+.col-tools {
+    width: 150px;
+}
+.col-sop {
+    width: 80px;
+}
+.col-extra {
+    width: 50px;
+}
+
+.col-title .title-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.col-title .completed, .col-title .abandoned {
+    border-radius: 90px;
+    width: 16px;
+    height: 16px;
+    background-color: #69ad5c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 16px;
+}
+
+.col-title .abandoned {
+    background-color: transparent!important;
+}
+
+.col-title .abandoned-icon {
+    width: 16px!important;
+    height: 16px!important;
+}
+
+.col-title .title-wrapper svg {
+    width: 10px;
+    height: 10px;
+}
+
+.col-title .tick-icon polygon {
+    fill: #fff;
+    stroke: #fff;
+}
+
+.col-difficulty .box {
+    width: 53px;
+    height: 20px;
+    color: #404a5c;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.col-difficulty .box.d-20 {
+    background-color: #ebf2fb;
+    color: #4078dd;
+}
+
+.col-difficulty .box.d-10 {
+    background-color: #eff6ed;
+    color: #69ad5c;
+}
+
+.col-difficulty .box.d-30 {
+    background-color: #ffefe7;
+    color: #ff691f;
+}
+
+.col-impact > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+}
+
+.col-impact > div > div {
+    width: 12px;
+    height: 8px;
+    background-color: #ebf2fb;
+    border-radius: 2px;
+    margin-right: 2px;
+}
+
+.col-impact > div.i-1 > div:first-child {
+    background-color: #8cadea;
+}
+
+.col-impact > div.i-2 > div:first-child {
+    background-color: #8cadea;
+}
+.col-impact > div.i-2 > div:nth-child(2) {
+    background-color: #6692e3;
+}
+
+.col-impact > div.i-3 > div:first-child {
+    background-color: #8cadea;
+}
+.col-impact > div.i-3 > div:nth-child(2) {
+    background-color: #6692e3;
+}
+
+.col-impact > div.i-3 > div:nth-child(3) {
+    background-color: #4078dd;
+}
+
+.col-status {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+    line-height: 12px;
+}
+
+.col-status .state-wrapper {
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+    padding: 8px 10px;
+    width: 120px;
+    cursor: pointer;
+}
+
+.col-status .state-wrapper.done {
+    background-color: #eff6ed;
+    color: #69ad5c;
+}
+
+.col-status .state-wrapper.abandoned {
+    background-color: #f3dddd;
+    color: #c85858;
+}
+
+.col-status .state-wrapper.in-progress {
+    background-color: #d8e3f8;
+    color: #4078dd;
+}
+
+.col-status .state-wrapper.not-performed {
+    background-color: #f5f8ff;
+    color: #404a5c;
+}
+
+.col-status .state-wrapper .icon img {
+    width: 8px;
+    height: 8px;
+}
+.col-tools {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.col-tools img {
+    margin-right: 9px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.col-extra span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.col-extra span svg {
+    max-width: 20px;
+    margin-right: 5px;
+}
+
+.col-extra span svg path {
+    fill: #4078dd;
+}
+
+.hidden {
+    display: none!important;
+}
+
+.status-selector {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    top: 30px;
+    right: -6px;
+    background-color: #fff;
+    z-index: 100;
+    padding: 8px 11px;
+    box-shadow: 0 4px 8px 0 rgba(151,162,182,.16);
+    min-width: 132px
+}
+
+.status-selector .title {
+    color: #97a2b6;
+    font-size: 8px;
+    font-weight: 400;
+    text-transform: uppercase
+}
+
+.status-selector .status {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: 0;
+    margin-top: 6px;
+    cursor: pointer;
+    justify-content: center;
+    min-height: 20px;
+    padding-top: 1px
+}
+
+.status-selector .status.not_performed {
+    background-color: #f5f8ff;
+    color: #404a5c
+}
+
+.status-selector .status.in_progress {
+    background-color: #d8e3f8;
+    color: #4078dd
+}
+
+.status-selector .status.abandoned {
+    background-color: #f3dddd;
+    color: #c85858
+}
+
+.status-selector .status.done {
+    background-color: #eff6ed;
+    color: #69ad5c
+}
