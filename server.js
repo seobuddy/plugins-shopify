@@ -17,7 +17,6 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, HOST } = process.env;
-
 app.prepare().then(() => {
     const server = new Koa();
     server.use(session({ secure: true, sameSite: 'none' }, server));
