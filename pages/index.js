@@ -1,4 +1,4 @@
-import {Card, Layout, Page} from '@shopify/polaris';
+import {List, Card, Layout, Page} from '@shopify/polaris';
 import Step from "../components/checklist/Step";
 import gql from "graphql-tag";
 
@@ -111,6 +111,24 @@ class Index extends React.Component {
             return (
                 <Page fullWidth>
                     <Layout>
+                        <Layout.Section>
+                            <Card title="Welcome to The SEO Checklist by SEOBUDDY" sectioned>
+                                <p className='seobuddy'>You can use this link to <a href='https://docs.google.com/spreadsheets/d/1NNtc9LjOSnEeNoGd2LjgQX3EL9te5qp8IpO6oOcAaEs/edit?usp=sharing' target="_blank">Grab your copy of The SEO Checklist as a Google Sheet</a>.</p>
+                                <p className='seobuddy'>
+                                    This will open the Google Sheet (go to “File” and “Make a copy” to get your version).
+                                    You’ll see every step you need to take. Plus a process document assigned to each step (this is The SOP Collection).
+                                </p>
+                                <p className='seobuddy'>Here are links to the other resources in your bundle:</p>
+                                <List type="bullet">
+                                    <List.Item><a href='https://drive.google.com/file/d/1ewxUcwoEWRMXny0r0AbNbmyC6d1fVh4L/view?usp=sharing' target="_blank">The SEO Checklist eBook</a> (PDF)</List.Item>
+                                    <List.Item><a href='https://trello.com/b/E0CErN0p' target="_blank">The SEO Checklist Trello Board</a></List.Item>
+                                    <List.Item><a href='https://drive.google.com/file/d/1wLySuXr0cDMVGhtsOJFvycFizIejP65q/view?usp=sharing' target="_blank">The 52 Weeks Content Strategy eBook</a> (PDF)</List.Item>
+                                    <List.Item><a href='https://trello.com/b/djG8sCWP' target="_blank">The 52 Weeks Content Strategy Trello Board</a></List.Item>
+                                    <List.Item><a href='https://docs.google.com/spreadsheets/d/1LnYKzfuCdd6pm01F6cpBkkPhSN3URzN8kyp7PG8b3n4/edit?usp=sharing' target="_blank">Content Calendar Checklist</a></List.Item>
+                                </List>
+                                <p className='seobuddy'>P.S. You’re now part of an amazing tribe of people working to improve their businesses and their lives. Come and join the community in our private Facebook group: <a href='https://www.facebook.com/groups/seobuddy.mastermind/' target="_blank">SEO Buddy Mastermind</a>.</p>
+                            </Card>
+                        </Layout.Section>
                         <Layout.Section>
                             {Object.entries(categories).map(([key, category]) => (
                                 <Card sectioned title={category.name} key={category.id}>
