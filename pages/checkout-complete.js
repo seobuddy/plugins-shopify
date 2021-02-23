@@ -71,7 +71,7 @@ function CheckoutComplete(props) {
             <Card
                 title="Checkout complete"
                 primaryFooterAction={{
-                    content: 'Go to checklist',
+                    content: 'Go to the SEO Checklist',
                     url: '/?shop=' + props.shopOrigin
                 }}
             >
