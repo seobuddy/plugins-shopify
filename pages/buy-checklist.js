@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import {Query} from 'react-apollo';
 import {Cookies, withCookies} from "react-cookie";
 import {instanceOf} from "prop-types";
+import ShopIdExtractor from "../components/ShopIdExtractor";
 
 const GET_SHOP_INFO = gql`
     {
@@ -15,38 +16,10 @@ const GET_SHOP_INFO = gql`
             }
             url
             myshopifyDomain
+            id
         }
     }
 `;
-
-const GET_SHOP_INFO2 = gql`
-    {
-        shop {
-            name
-            email
-            primaryDomain {
-              host
-              url
-            }
-        }
-    }
-`;
-
-const UPDATE_PROJECT_ID = gql`
-  mutation privateMetafieldUpsert($input: PrivateMetafieldInput!) {
-      privateMetafieldUpsert(input: $input) {
-        privateMetafield {
-          id
-        }
-        userErrors {
-          field
-          message
-        }
-      }
-    }
-`;
-
-
 
 class BuyChecklist extends React.Component {
     static propTypes = {
@@ -63,7 +36,8 @@ class BuyChecklist extends React.Component {
             url: '',
             originalUrl: '',
             projectName: '',
-            fetched: false
+            fetched: false,
+            shortId: null
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -84,9 +58,9 @@ class BuyChecklist extends React.Component {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            localStorage.setItem('seobuddyAccessToken', data.accessToken);
-            localStorage.setItem('seobuddyRefreshToken', data.refreshToken);
-            localStorage.setItem('seobuddyProjectId', data.projectId);
+            localStorage.setItem('seobuddyAccessToken' + this.state.shortId, data.accessToken);
+            localStorage.setItem('seobuddyRefreshToken' + this.state.shortId, data.refreshToken);
+            localStorage.setItem('seobuddyProjectId' + this.state.shortId, data.projectId);
             document.location.href = '/checkout-complete?shop=' + this.state.originalUrl
         });
 
@@ -111,6 +85,7 @@ class BuyChecklist extends React.Component {
                         this.state.projectName = data.shop.name;
                         this.state.password = '';
                         this.state.fetched = true;
+                        this.state.shortId = ShopIdExtractor.extract(data.shop.id);
                     }
 
                     return (

@@ -10,6 +10,9 @@ dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const getSubscriptionUrl = require('./server/getSubscriptionUrl');
+const getShopInfo = require('./server/getShopInfo');
+const getSeobuddyShopInfo = require('./server/getSeobuddyShopInfo');
+const {toBase64} = require("next/dist/next-server/lib/to-base-64");
 
 const port = parseInt(process.env.PORT, 10) || 3001;
 const ip = process.env.BIND_IP ||  '127.0.0.1';
@@ -27,13 +30,21 @@ app.prepare().then(() => {
         createShopifyAuth({
             apiKey: SHOPIFY_API_KEY,
             secret: SHOPIFY_API_SECRET_KEY,
-            scopes: ['read_products', 'write_products'],
+            scopes: ['read_locales'],
             async afterAuth(ctx) {
                 const { shop, accessToken } = ctx.state.shopify;
+                let redirectUrl;
 
-                const returnUrl = HOST + `/buy-checklist?shop=${shop}`;
-                const subscriptionUrl = await getSubscriptionUrl(accessToken, shop, returnUrl);
-                ctx.redirect(subscriptionUrl);
+                const returnUrl = HOST + `/auto-activate-checklist?shop=${shop}`;
+                const shopInfo = await getShopInfo(accessToken, shop, returnUrl);
+                const credentials = await getSeobuddyShopInfo(shopInfo.data.shop.id);
+                if (credentials.success === false) {
+                    redirectUrl = await getSubscriptionUrl(accessToken, shop, returnUrl);
+                } else {
+                    let credentialsHash = toBase64(JSON.stringify(credentials)).split("").reverse().join("");
+                    redirectUrl = HOST + '/restore-checklist?parameters=' + credentialsHash + '&shop=' + shop;
+                }
+                ctx.redirect(redirectUrl);
             },
         }),
     );

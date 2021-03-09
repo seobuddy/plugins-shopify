@@ -297,3 +297,7 @@ p.seobuddy {
     margin-top: 12px;
     margin-bottom: 12px;
 }
+
+.error {
+    color: #CC0000;
+}

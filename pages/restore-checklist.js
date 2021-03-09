@@ -2,6 +2,8 @@ import {Card, Page} from '@shopify/polaris';
 import gql from "graphql-tag";
 import {graphql} from "react-apollo";
 import React, {useEffect, useState} from "react";
+import { useRouter } from 'next/router'
+import ShopIdExtractor from "../components/ShopIdExtractor";
 
 const UPDATE_ACCESS_TOKEN = gql`
   mutation privateMetafieldUpsert($input: PrivateMetafieldInput!) {
@@ -19,9 +21,14 @@ const UPDATE_ACCESS_TOKEN = gql`
     }
 `;
 
-function CheckoutComplete(props) {
+function RestoreChecklist(props) {
 
     const [keySet, setKeySet] = useState();
+
+    const router = useRouter();
+    let buff = new Buffer(router.query.parameters.split("").reverse().join(""), 'base64');
+    let text = buff.toString('ascii');
+    let credentials = JSON.parse(text);
 
     useEffect(() => {
         props.mutate({
@@ -30,7 +37,7 @@ function CheckoutComplete(props) {
                     "namespace": "seobuddy",
                     "key": "seobuddyAccessToken",
                     "valueInput": {
-                        "value": localStorage.getItem('seobuddyAccessToken' + localStorage.getItem('activatedShortId')),
+                        "value": credentials.access_token,
                         "valueType": "STRING"
                     }
                 }
@@ -42,7 +49,7 @@ function CheckoutComplete(props) {
                         "namespace": "seobuddy",
                         "key": "seobuddyRefreshToken",
                         "valueInput": {
-                            "value": localStorage.getItem('seobuddyRefreshToken' + localStorage.getItem('activatedShortId')),
+                            "value": credentials.refresh_token,
                             "valueType": "STRING"
                         }
                     }
@@ -54,7 +61,7 @@ function CheckoutComplete(props) {
                             "namespace": "seobuddy",
                             "key": "seobuddyProjectId",
                             "valueInput": {
-                                "value": localStorage.getItem('seobuddyProjectId' + localStorage.getItem('activatedShortId')),
+                                "value": credentials.project_id,
                                 "valueType": "STRING"
                             }
                         }
@@ -70,16 +77,16 @@ function CheckoutComplete(props) {
     return keySet ? (
         <Page>
             <Card
-                title="Checkout complete"
+                title="Restoration complete"
                 primaryFooterAction={{
                     content: 'Go to the SEO Checklist',
                     url: '/?shop=' + props.shopOrigin
                 }}
             >
-                <Card.Section title="">SEO Checklist has been successfully activated</Card.Section>
+                <Card.Section title="">SEO Checklist has been successfully restored</Card.Section>
             </Card>
         </Page>
     ) : 'Loading';
 }
 
-export default graphql(UPDATE_ACCESS_TOKEN)(CheckoutComplete);
+export default graphql(UPDATE_ACCESS_TOKEN)(RestoreChecklist);

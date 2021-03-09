@@ -1,6 +1,8 @@
 import {List, Card, Layout, Page} from '@shopify/polaris';
 import Step from "../components/checklist/Step";
 import gql from "graphql-tag";
+import ShopIdExtractor from "../components/ShopIdExtractor";
+import React from "react";
 
 const GET_SHOP_INFO = gql`
     {
@@ -40,17 +42,25 @@ class Index extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            items: []
+            notActivated: false,
+            items: [],
+            shortId: null,
+            shopOrigin: props.shopOrigin
         };
     }
 
     loadChecklist() {
+        if (localStorage.getItem('seobuddyProjectId' + this.state.shortId) === null) {
+            this.setState({
+                notActivated: true
+            });
+        }
         fetch(
-            this.apiHost + "/api/seo-checklist/steps/" + localStorage.getItem('seobuddyProjectId'),
+            this.apiHost + "/api/seo-checklist/steps/" + localStorage.getItem('seobuddyProjectId' + this.state.shortId),
             {
                 method: 'get',
                 headers: new Headers({
-                    'Authorization': 'Bearer ' + localStorage.getItem('seobuddyAccessToken')
+                    'Authorization': 'Bearer ' + localStorage.getItem('seobuddyAccessToken' + this.state.shortId)
                 })
             }
         )
@@ -73,40 +83,53 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem('seobuddyProjectId') === null) {
-            console.log('Loading into cache');
             this.apolloClient.query({
                     query: GET_SHOP_INFO
                 })
                 .then((result) => {
 
                     let shopId = result.data.shop.id;
-                    this.apolloClient.query({
-                        query: GET_METAFIELDS,
-                        variables: {
-                            shopId: shopId
-                        }
-                    })
-                        .then((result) => {
+                    let shortId = ShopIdExtractor.extract(result.data.shop.id);
+                    this.setState({shortId: shortId});
+                    if (localStorage.getItem('seobuddyProjectId' + shortId) === null) {
+                        this.apolloClient.query({
+                            query: GET_METAFIELDS,
+                            variables: {
+                                shopId: shopId
+                            }
+                        }).then((result) => {
                             for(let i in result.data.privateMetafields.edges) {
                                 let edge = result.data.privateMetafields.edges[i];
-                                localStorage.setItem(edge.node.key, edge.node.value);
+                                localStorage.setItem(edge.node.key + shortId, edge.node.value);
                             }
                             this.loadChecklist();
                         });
+                    } else {
+                        this.loadChecklist();
+                    }
                 });
-        } else {
-            this.loadChecklist();
-        }
-
     }
 
     render() {
-        let { error, isLoaded, items, categories } = this.state;
+        let { error, isLoaded, notActivated, items, categories } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <div>Loading checklist...</div>;
+        } else if (notActivated) {
+            return (
+                <Page>
+                    <Card
+                        title="Checklist not activated properly"
+                        primaryFooterAction={{
+                            content: 'Restart activation',
+                            url: '/auth?shop=' + this.state.shopOrigin
+                        }}
+                    >
+                        <Card.Section title="">You need to complete payment to activate SEO Checklist.</Card.Section>
+                    </Card>
+                </Page>
+            )
         } else {
             return (
                 <Page fullWidth>
@@ -143,7 +166,7 @@ class Index extends React.Component {
                                         <div className="title col-extra">Extra</div>
                                     </div>
                                     {Object.entries(items[category.id]).map(([key, item]) => (
-                                        <Step key={item.id} data={item} apiHost={this.apiHost}/>
+                                        <Step key={item.id} data={item} shortId={this.state.shortId} apiHost={this.apiHost}/>
                                     ))}
                                 </Card>
                             ))}

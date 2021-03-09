@@ -13,7 +13,8 @@ class Step extends React.Component {
         super(props);
         this.apiHost = props.apiHost;
         this.state = {
-            data: props.data
+            data: props.data,
+            shortId: props.shortId
         };
 
         this.setStepState = this.setStepState.bind(this)
@@ -37,7 +38,7 @@ class Step extends React.Component {
                         <div className={'abandoned ' + (this.state.data.status_name === 'abandoned' ? '' : 'hidden')}><AbandonedIcon/></div>
                     </div>
                 </div>
-                <div className="title col-status"><Status stateHandler={this.setStepState} state={this.state.data.status_name} stepId={this.state.data.project_step_id} apiHost={this.apiHost}/></div>
+                <div className="title col-status"><Status shortId={this.state.shortId} stateHandler={this.setStepState} state={this.state.data.status_name} stepId={this.state.data.project_step_id} apiHost={this.apiHost}/></div>
                 <div className="title col-difficulty"><Difficulty level={this.state.data.difficulty}/></div>
                 <div className="title col-impact"><Impact level={this.state.data.impact}/></div>
                 <div className="title col-cost"><Cost paid={this.state.data.free}/></div>

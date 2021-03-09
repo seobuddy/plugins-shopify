@@ -9,7 +9,8 @@ class Status extends React.Component {
             selectorOpen: false,
             stepId: props.stepId,
             inCall: false,
-            stateHandler: props.stateHandler
+            stateHandler: props.stateHandler,
+            shortId: props.shortId
         };
 
         this.toggleStatusSelector = this.toggleStatusSelector.bind(this);
@@ -28,7 +29,7 @@ class Status extends React.Component {
             {
                 method: 'post',
                 headers: new Headers({
-                    'Authorization': 'Bearer ' + localStorage.getItem('seobuddyAccessToken')
+                    'Authorization': 'Bearer ' + localStorage.getItem('seobuddyAccessToken' + this.state.shortId)
                 })
             }
         )

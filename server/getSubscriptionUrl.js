@@ -27,7 +27,6 @@ const getSubscriptionUrl = async (accessToken, shop, returnUrl = process.env.HOS
     })
 
     const responseJson = await response.json();
-    console.log(responseJson);
     return responseJson.data.appPurchaseOneTimeCreate.confirmationUrl;
 };
 
