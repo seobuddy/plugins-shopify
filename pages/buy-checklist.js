@@ -1,8 +1,6 @@
 import {Button, Card, Form, FormLayout, Page, TextField} from '@shopify/polaris';
 import gql from 'graphql-tag';
 import {Query} from 'react-apollo';
-import {Cookies, withCookies} from "react-cookie";
-import {instanceOf} from "prop-types";
 import ShopIdExtractor from "../components/ShopIdExtractor";
 
 const GET_SHOP_INFO = gql`
@@ -22,9 +20,6 @@ const GET_SHOP_INFO = gql`
 `;
 
 class BuyChecklist extends React.Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    };
 
     constructor(props) {
         super(props);
@@ -156,5 +151,5 @@ class BuyChecklist extends React.Component {
     }
 }
 
-export default withCookies(BuyChecklist);
+export default BuyChecklist;
 
