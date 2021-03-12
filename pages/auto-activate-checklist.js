@@ -79,7 +79,7 @@ class AutoActivateChecklist extends React.Component {
                         localStorage.setItem('seobuddyRefreshToken' + shortIdentifier, data.refreshToken);
                         localStorage.setItem('seobuddyProjectId' + shortIdentifier, data.projectId);
                         localStorage.setItem('activatedShortId', shortIdentifier);
-                        document.location.href = '/checkout-complete?shop=' + this.state.originalUrl;
+                        window.open('/checkout-complete?shop=' + this.state.originalUrl, '_self');
                     } else {
                         this.setState({accountExists: true})
                     }
@@ -113,7 +113,7 @@ class AutoActivateChecklist extends React.Component {
                 localStorage.setItem('seobuddyRefreshToken' + shortIdentifier, data.refreshToken);
                 localStorage.setItem('seobuddyProjectId' + shortIdentifier, data.projectId);
                 localStorage.setItem('activatedShortId', shortIdentifier);
-                document.location.href = '/checkout-complete?shop=' + this.state.originalUrl;
+                window.open('/checkout-complete?shop=' + this.state.originalUrl, '_self');
             } else {
                 this.setState({accountExists: true})
             }
