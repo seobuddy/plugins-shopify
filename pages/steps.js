@@ -34,9 +34,11 @@ const GET_METAFIELDS = gql`
     }
 `;
 
-class Index extends React.Component {
+class Steps extends React.Component {
     constructor(props) {
         super(props);
+        this.seobuddyProjectId = null;
+        this.seobuddyAccessToken = null;
         this.apolloClient = props.apolloClient;
         this.apiHost = props.apiHost;
         this.state = {
@@ -45,22 +47,29 @@ class Index extends React.Component {
             notActivated: false,
             items: [],
             shortId: null,
-            shopOrigin: props.shopOrigin
+            shopOrigin: props.shopOrigin,
+            accessToken: null
         };
+
+        this.redirectToAuth = this.redirectToAuth.bind(this);
+    }
+
+    redirectToAuth() {
+        window.top.location = '/auth?shop=' + this.state.shopOrigin;
     }
 
     loadChecklist() {
-        if (localStorage.getItem('seobuddyProjectId' + this.state.shortId) === null) {
+        if (this.seobuddyProjectId === null) {
             this.setState({
                 notActivated: true
             });
         }
         fetch(
-            this.apiHost + "/api/seo-checklist/steps/" + localStorage.getItem('seobuddyProjectId' + this.state.shortId),
+            this.apiHost + "/api/seo-checklist/steps/" + this.seobuddyProjectId,
             {
                 method: 'get',
                 headers: new Headers({
-                    'Authorization': 'Bearer ' + localStorage.getItem('seobuddyAccessToken' + this.state.shortId)
+                    'Authorization': 'Bearer ' + this.seobuddyAccessToken
                 })
             }
         )
@@ -70,7 +79,8 @@ class Index extends React.Component {
                     this.setState({
                         isLoaded: true,
                         items: result.items,
-                        categories: result.categories
+                        categories: result.categories,
+                        accessToken: this.seobuddyAccessToken
                     });
                 },
                 (error) => {
@@ -91,7 +101,7 @@ class Index extends React.Component {
                     let shopId = result.data.shop.id;
                     let shortId = ShopIdExtractor.extract(result.data.shop.id);
                     this.setState({shortId: shortId});
-                    if (localStorage.getItem('seobuddyProjectId' + shortId) === null) {
+                    // if (localStorage.getItem('seobuddyProjectId' + shortId) === null) {
                         this.apolloClient.query({
                             query: GET_METAFIELDS,
                             variables: {
@@ -100,13 +110,13 @@ class Index extends React.Component {
                         }).then((result) => {
                             for(let i in result.data.privateMetafields.edges) {
                                 let edge = result.data.privateMetafields.edges[i];
-                                localStorage.setItem(edge.node.key + shortId, edge.node.value);
+                                this[edge.node.key] = edge.node.value;
                             }
                             this.loadChecklist();
                         });
-                    } else {
-                        this.loadChecklist();
-                    }
+                    // } else {
+                    //     this.loadChecklist();
+                    // }
                 });
     }
 
@@ -121,10 +131,12 @@ class Index extends React.Component {
                 <Page>
                     <Card
                         title="Checklist not activated properly"
-                        primaryFooterAction={{
-                            content: 'Restart activation',
-                            url: '/auth?shop=' + this.state.shopOrigin
-                        }}
+                        primaryFooterAction={
+                            {
+                                content: 'Restart activation',
+                                onAction: this.redirectToAuth
+                            }
+                        }
                     >
                         <Card.Section title="">You need to complete payment to activate SEO Checklist.</Card.Section>
                     </Card>
@@ -166,7 +178,7 @@ class Index extends React.Component {
                                         <div className="title col-extra">Extra</div>
                                     </div>
                                     {Object.entries(items[category.id]).map(([key, item]) => (
-                                        <Step key={item.id} data={item} shortId={this.state.shortId} apiHost={this.apiHost}/>
+                                        <Step key={item.id} data={item} shortId={this.state.shortId} apiHost={this.apiHost} accessToken={this.state.accessToken} />
                                     ))}
                                 </Card>
                             ))}
@@ -178,4 +190,4 @@ class Index extends React.Component {
     }
 }
 
-export default Index;
+export default Steps;

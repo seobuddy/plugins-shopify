@@ -56,7 +56,7 @@ class BuyChecklist extends React.Component {
             localStorage.setItem('seobuddyAccessToken' + this.state.shortId, data.accessToken);
             localStorage.setItem('seobuddyRefreshToken' + this.state.shortId, data.refreshToken);
             localStorage.setItem('seobuddyProjectId' + this.state.shortId, data.projectId);
-            window.open('/checkout-complete?shop=' + this.state.originalUrl, '_self');
+            document.location.href = '/checkout-complete?shop=' + this.state.originalUrl
         });
 
         event.preventDefault();

@@ -13,13 +13,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@shopify/app-bridge": "^1.28.0",
-    "@shopify/app-bridge-react": "^1.28.0",
-    "@shopify/koa-shopify-auth": "^3.2.0",
+    "@shopify/app-bridge": "^1.23.0",
+    "@shopify/app-bridge-react": "^1.23.0",
+    "@shopify/app-bridge-utils": "^1.23.0",
+    "@shopify/koa-shopify-auth": "^4.0.2",
     "@shopify/koa-shopify-graphql-proxy": "^4.1.0",
     "@shopify/polaris": "^6.0.0",
     "@zeit/next-css": "^1.0.1",
     "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-link-http": "^1.5.17",
     "blueimp-md5": "^2.18.0",
     "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
@@ -27,14 +30,21 @@
     "graphql-tag": "^2.11.0",
     "isomorphic-fetch": "^3.0.0",
     "koa": "^2.13.1",
+    "koa-router": "^8.0.8",
     "koa-session": "^6.1.0",
-    "next": "^10.0.5",
+    "koa-shopify-auth-cookieless": "^1.0.31",
+    "koa-shopify-graphql-proxy-cookieless": "^1.0.11",
+    "next": "^10.0.*",
     "react": "^16.9.0",
     "react-apollo": "^3.1.5",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.9.0",
     "react-html-parser": "^2.0.2",
     "react-router-dom": "^5.2.0",
+    "shopify-jwt-auth-verify": "^1.0.10",
     "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "apollo-client": "^2.6.10"
   }
 }

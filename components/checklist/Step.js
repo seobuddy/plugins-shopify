@@ -7,6 +7,7 @@ import Tools from "./Tools";
 import Extras from "./Extras";
 import TickIcon from "./TickIcon";
 import AbandonedIcon from "./AbandonedIcon";
+import React from "react";
 
 class Step extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class Step extends React.Component {
         this.apiHost = props.apiHost;
         this.state = {
             data: props.data,
-            shortId: props.shortId
+            shortId: props.shortId,
+            accessToken: props.accessToken
         };
 
         this.setStepState = this.setStepState.bind(this)
@@ -38,7 +40,7 @@ class Step extends React.Component {
                         <div className={'abandoned ' + (this.state.data.status_name === 'abandoned' ? '' : 'hidden')}><AbandonedIcon/></div>
                     </div>
                 </div>
-                <div className="title col-status"><Status shortId={this.state.shortId} stateHandler={this.setStepState} state={this.state.data.status_name} stepId={this.state.data.project_step_id} apiHost={this.apiHost}/></div>
+                <div className="title col-status"><Status accessToken={this.state.accessToken} shortId={this.state.shortId} stateHandler={this.setStepState} state={this.state.data.status_name} stepId={this.state.data.project_step_id} apiHost={this.apiHost}/></div>
                 <div className="title col-difficulty"><Difficulty level={this.state.data.difficulty}/></div>
                 <div className="title col-impact"><Impact level={this.state.data.impact}/></div>
                 <div className="title col-cost"><Cost paid={this.state.data.free}/></div>

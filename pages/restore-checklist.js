@@ -68,7 +68,6 @@ function RestoreChecklist(props) {
                     }
                 }).then(() => {
                     setKeySet(true);
-                    localStorage.removeItem('activatedShortId');
                 });
             });
         });
@@ -80,7 +79,7 @@ function RestoreChecklist(props) {
                 title="Restoration complete"
                 primaryFooterAction={{
                     content: 'Go to the SEO Checklist',
-                    url: '/?shop=' + props.shopOrigin
+                    url: '/steps?shop=' + props.shopOrigin
                 }}
             >
                 <Card.Section title="">SEO Checklist has been successfully restored</Card.Section>
