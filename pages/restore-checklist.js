@@ -79,7 +79,7 @@ function RestoreChecklist(props) {
                 title="Restoration complete"
                 primaryFooterAction={{
                     content: 'Go to the SEO Checklist',
-                    url: '/steps?shop=' + props.shopOrigin
+                    url: '/?shop=' + props.shopOrigin
                 }}
             >
                 <Card.Section title="">SEO Checklist has been successfully restored</Card.Section>

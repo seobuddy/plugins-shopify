@@ -34,7 +34,7 @@ const GET_METAFIELDS = gql`
     }
 `;
 
-class Steps extends React.Component {
+class Index extends React.Component {
     constructor(props) {
         super(props);
         this.seobuddyProjectId = null;
@@ -190,4 +190,4 @@ class Steps extends React.Component {
     }
 }
 
-export default Steps;
+export default Index;
